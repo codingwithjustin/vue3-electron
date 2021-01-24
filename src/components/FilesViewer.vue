@@ -1,7 +1,26 @@
+<script>
+import IconFile from './IconFile'
+import IconFolder from './IconFolder'
+import IconFolderOpen from './IconFolderOpen'
+
+export default {
+  props: {
+    files: { type: Array, default: () => [] }
+  },
+  components: { IconFile, IconFolder, IconFolderOpen },
+  setup(_, { emit }) {
+    const onFileClick = file => {
+      if (file.directory) emit('folderclick', file)
+    }
+    return { onFileClick }
+  }
+}
+</script>
+
 <template>
   <table class="table">
     <tbody>
-      <tr v-if="nested" class="clickable" @click="$emit('back')">
+      <tr class="clickable" @click="$emit('back')">
         <td class="icon-row">
           <IconFolderOpen class="icon-folder" />
         </td>
@@ -27,26 +46,6 @@
     </tbody>
   </table>
 </template>
-
-<script>
-import IconFile from './IconFile'
-import IconFolder from './IconFolder'
-import IconFolderOpen from './IconFolderOpen'
-
-export default {
-  props: {
-    nested: { type: Boolean, default: true },
-    files: { type: Array, default: () => [] }
-  },
-  components: { IconFile, IconFolder, IconFolderOpen },
-  setup(_, { emit }) {
-    const onFileClick = file => {
-      if (file.directory) emit('folderclick', file)
-    }
-    return { onFileClick }
-  }
-}
-</script>
 
 <style scoped>
 .clickable {
